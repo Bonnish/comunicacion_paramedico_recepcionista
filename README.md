@@ -34,7 +34,7 @@ El sistema está orientado a mejorar la coordinación en situaciones de emergenc
 
 ## Configuración de base de datos (MySQL)
 
-1. Crear una base de datos MySQL, por ejemplo:
+1. Crear una base de datos MySQL:
 
    ```sql
    CREATE DATABASE comunicacion_hospital;
