@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'ambulancia_comms.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'ambulancia_comms',
+        'NAME': 'comunicacion_hospital',
         'HOST': 'localhost',
         'USER': 'root',
         'PASSWORD': '1234'
