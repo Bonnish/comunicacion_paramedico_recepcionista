@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% block title %}Formulario Ambulancia{% endblock %}
+{% block content %}
+    <div class="container">
+        <h1>Formulario de Derivación — Ambulancia</h1>
+        <form id="handoffForm">
+            <div class="row">
+                <label for="prevision">Previsión</label>
+                <select id="prevision" name="prevision" required>
+                    <option value="">Seleccione</option>
+                    <option value="Fonasa">Fonasa</option>
+                    <option value="Isapre">Isapre</option>
+                    <option value="Dipreca">Dipreca</option>
+                    <option value="Particular">Particular</option>
+                </select>
+            </div>
+
+            <div class="row">
+                <label>Accidente laboral</label>
+                <label><input type="radio" name="accidente" value="Si" required> Sí</label>
+                <label><input type="radio" name="accidente" value="No"> No</label>
+            </div>
+
+            <div class="row">
+                <label>Género</label>
+                <label><input type="radio" name="genero" value="Masculino" required> Masculino</label>
+                <label><input type="radio" name="genero" value="Femenino"> Femenino</label>
+            </div>
+
+            <div class="row">
+                <label for="edad">Edad</label>
+                <input type="number" id="edad" name="edad" min="0" required>
+            </div>
+
+            <div class="row">
+                <label for="comorbilidades">Comorbilidades</label>
+                <textarea id="comorbilidades" name="comorbilidades"
+                          placeholder="Ej: Diabetes, Hipertensión..."></textarea>
+            </div>
+
+            <div class="row">
+                <label for="funcionalidad">Funcionalidad</label>
+                <textarea id="funcionalidad" name="funcionalidad" placeholder="Ej: VGI + EVF"></textarea>
+            </div>
+
+            <div class="row">
+                <label for="motivo">Motivo de derivación</label>
+                <textarea id="motivo" name="motivo"
+                          placeholder="Describa el motivo de consulta o derivación..."></textarea>
+            </div>
+
+            <div class="row">
+                <label for="prestacion">Prestación requerida / Evaluación</label>
+                <textarea id="prestacion" name="prestacion" placeholder="Glasgow, FC, FR, FIO2, SatO2, etc."></textarea>
+            </div>
+
+            <hr>
+
+            <h3>Signos Vitales</h3>
+            <div class="row">
+                <label for="csv">CSV (Presión Arterial)</label>
+                <input type="text" id="csv" name="csv" placeholder="Ej: 188/99 (129)">
+            </div>
+            <div class="row">
+                <label for="fc">FC (Frecuencia Cardíaca)</label>
+                <input type="text" id="fc" name="fc" placeholder="Ej: 68x’">
+            </div>
+            <div class="row">
+                <label for="fr">FR (Frecuencia Respiratoria)</label>
+                <input type="text" id="fr" name="fr" placeholder="Ej: 22x’">
+            </div>
+            <div class="row">
+                <label for="sat">SatO₂ (%)</label>
+                <input type="text" id="sat" name="sat" placeholder="Ej: 78% (FiO2 amb)">
+            </div>
+            <div class="row">
+                <label for="temp">Temperatura (°C)</label>
+                <input type="text" id="temp" name="temp" placeholder="Ej: 36°C">
+            </div>
+
+            <div class="row">
+                <label for="observaciones">Observaciones / Solicitud</label>
+                <textarea id="observaciones" name="observaciones"
+                          placeholder="Ej: Solicito orientación clínica y/o derivación..."></textarea>
+            </div>
+
+            <div class="actions">
+                <button type="submit">Enviar</button>
+                <button type="reset" class="secondary">Limpiar</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('handoffForm').addEventListener('submit', e => {
+            e.preventDefault();
+            const data = Object.fromEntries(new FormData(e.target).entries());
+            console.log('Datos a enviar:', JSON.stringify(data, null, 2));
+            alert('Formulario enviado (simulado)');
+        });
+    </script>
+{% endblock %}

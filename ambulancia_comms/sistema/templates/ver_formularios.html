@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}Ver Formularios{% endblock %}
+
+{% block content %}
+    <div class="container_formularios">
+        <h2>Lista de Formularios (Simulacion)</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Paciente</th>
+                <th>Paramédico</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>12/10/2025</td>
+                <td>Juan Pérez</td>
+                <td>María González</td>
+                <td>En traslado</td>
+                <td class="acciones-btns">
+                    <button onclick="alert('Editar simulado')">Editar</button>
+                    <button onclick="alert('Derivar simulado')">Derivar</button>
+                    <button onclick="enviarAlerta('{{ f.paciente|default:'NOMBRE DE PACIENTE' }}')">Enviar alerta</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <script>
+        function enviarAlerta(paciente) {
+            const mensaje = prompt(`Escribe el mensaje de alerta para ${paciente}:`, '');
+            if (mensaje && mensaje.trim() !== '') {
+                alert(`Alerta enviada al paramédico:\nPaciente: ${paciente}\nMensaje: ${mensaje}`);
+            } else if (mensaje !== null) {
+                alert('Debe escribir un mensaje de alerta.');
+            }
+        }
+    </script>
+{% endblock %}

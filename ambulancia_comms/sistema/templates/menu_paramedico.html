@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}Menú Paramédico{% endblock %}
+{% block content %}
+    <div class="container">
+        <h2>Menú Paramédico</h2>
+        <div class="grid">
+            <a href="{% url 'enviar_formulario' %}" class="card">Enviar formulario</a>
+            <a href="{% url 'ver_formularios' %}" class="card">Ver formularios</a>
+            <a href="{% url 'derivar_paciente' %}" class="card">Derivar paciente</a>
+            <a href="#" class="card">Convertir PDF (No disponible)</a>
+            <a href="#" class="card">Convertir Excel (No disponible)</a>
+        </div>
+    </div>
+{% endblock %}
