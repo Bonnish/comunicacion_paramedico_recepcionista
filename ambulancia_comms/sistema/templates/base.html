@@ -1,28 +1,72 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Comunicación Ambulancia-Hospital{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
+
 <body>
-<header>
-    <h1>Sistema Comunicación</h1>
-    <nav>
-        <a href="{% url 'index' %}">Inicio</a> |
-        <a href="{% url 'menu_paramedico' %}">Menú Paramédico</a> |
-        <a href="{% url 'menu_hospital' %}">Menú Hospital</a>
-    </nav>
-</header>
+    <header
+        style="background-color:#004aad; color:white; padding:15px 20px; display:flex; justify-content:space-between; align-items:center;">
+        <div style="display:flex; align-items:center; gap:10px;">
+            {% if request.session.cargoUsuario == 'Administrador' %}
+            <img src="{% static 'img/logo_admin.png' %}" alt="Admin" style="height:40px;">
+            <span style="font-weight:bold;">Administrador — {{ request.session.nomUsuario }}</span>
+            {% elif request.session.cargoUsuario == 'Paramedico' %}
+            <img src="{% static 'img/logo_paramedico.png' %}" alt="Paramédico" style="height:40px;">
+            <span style="font-weight:bold;">Paramédico — {{ request.session.nomUsuario }}</span>
+            {% elif request.session.cargoUsuario == 'Hospital' %}
+            <img src="{% static 'img/logo_hospital.png' %}" alt="Hospital" style="height:40px;">
+            <span style="font-weight:bold;">Hospital — {{ request.session.nomUsuario }}</span>
+            {% else %}
+            <img src="{% static 'img/logo_default.png' %}" alt="Usuario" style="height:40px;">
+            <span style="font-weight:bold;">Invitado</span>
+            {% endif %}
+        </div>
 
-<main>
-    {% block content %}{% endblock %}
-</main>
+        <nav style="display:flex; align-items:center; gap:15px; position:relative;">
+            <a href="{% url 'index' %}" style="color:white; text-decoration:none;">Inicio</a>
+            <button id="menuBtn"
+                style="background:none; border:none; color:white; font-size:1.3em; cursor:pointer;">☰</button>
+            <div id="menuDropdown"
+                style="display:none; position:absolute; right:0; top:50px; background:white; color:black; min-width:180px; border-radius:5px; box-shadow:0 4px 8px rgba(0,0,0,0.3); overflow:hidden; z-index:100;">
+                {% if request.session.cargoUsuario == 'Administrador' %}
+                <a href="{% url 'admin:index' %}"
+                    style="display:block; padding:10px; text-decoration:none; color:black;">Crear usuarios</a>
+                {% endif %}
+                <a href="{% url 'cerrar_sesion' %}"
+                    style="display:block; padding:10px; text-decoration:none; color:black;">Cerrar sesión</a>
+            </div>
+        </nav>
+    </header>
 
-<footer>
-    <p>Comunicacion Ambulancia-Hospital — Prototipo</p>
-</footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const btn = document.getElementById("menuBtn");
+            const menu = document.getElementById("menuDropdown");
+            if (btn) {
+                btn.addEventListener("click", () => {
+                    menu.style.display = menu.style.display === "block" ? "none" : "block";
+                });
+                document.addEventListener("click", (e) => {
+                    if (!btn.contains(e.target) && !menu.contains(e.target)) menu.style.display = "none";
+                });
+            }
+        });
+    </script>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <p>Comunicacion Ambulancia-Hospital — Prototipo</p>
+    </footer>
 </body>
+
 </html>
