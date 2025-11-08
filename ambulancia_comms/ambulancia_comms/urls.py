@@ -10,6 +10,8 @@ urlpatterns = [
     path('derivar_paciente/', views.derivar_paciente, name='derivar_paciente'),
     path('enviar_formulario/', views.enviar_formulario, name='enviar_formulario'),
     path('ver_formularios/', views.ver_formularios, name='ver_formularios'),
-    path('login/', views.login, name='login'),
+    path('login/', views.mostrar_login, name='mostrar_login'),
+    path('procesar_login/', views.procesar_login, name='procesar_login'),
+    path('cerrar_sesion/', views.cerrar_sesion, name='cerrar_sesion'),
     path('editar_datos/', views.editar_datos, name='editar_datos'), #POR USAR, SERÁ PARA CAMBIAR LOS DATOS DE LA CUENTA DEL USUARIO
 ]
