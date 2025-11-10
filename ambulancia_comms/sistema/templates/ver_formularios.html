@@ -3,41 +3,51 @@
 {% block title %}Ver Formularios{% endblock %}
 
 {% block content %}
-    <div class="container_formularios">
-        <h2>Lista de Formularios (Simulacion)</h2>
-        <table>
-            <thead>
+<div class="container_formularios">
+    <h2>Lista de Formularios</h2>
+
+    {% if pa %}
+    <table>
+        <thead>
             <tr>
                 <th>Fecha</th>
                 <th>Paciente</th>
-                <th>Paramédico</th>
-                <th>Estado</th>
+                <th>Edad</th>
+                <th>Género</th>
+                <th>Previsión</th>
                 <th>Acciones</th>
             </tr>
-            </thead>
-            <tbody>
+        </thead>
+        <tbody>
+            {% for f in pa %}
             <tr>
-                <td>12/10/2025</td>
-                <td>Juan Pérez</td>
-                <td>María González</td>
-                <td>En traslado</td>
+                <td>{{ f.fecha_registro|date:"d/m/Y H:i" }}</td>
+                <td>{{ f.nombre }}</td>
+                <td>{{ f.edad }}</td>
+                <td>{{ f.genero }}</td>
+                <td>{{ f.prevision }}</td>
                 <td class="acciones-btns">
-                    <button onclick="alert('Editar simulado')">Editar</button>
-                    <button onclick="alert('Derivar simulado')">Derivar</button>
-                    <button onclick="enviarAlerta('{{ f.paciente|default:'NOMBRE DE PACIENTE' }}')">Enviar alerta</button>
+                    <button onclick="alert('Editar {{ f.nombre }}')">Editar</button>
+                    <button onclick="alert('Derivar {{ f.nombre }}')">Derivar</button>
+                    <button onclick="enviarAlerta('{{ f.nombre }}')">Enviar alerta</button>
                 </td>
             </tr>
-            </tbody>
-        </table>
-    </div>
-    <script>
-        function enviarAlerta(paciente) {
-            const mensaje = prompt(`Escribe el mensaje de alerta para ${paciente}:`, '');
-            if (mensaje && mensaje.trim() !== '') {
-                alert(`Alerta enviada al paramédico:\nPaciente: ${paciente}\nMensaje: ${mensaje}`);
-            } else if (mensaje !== null) {
-                alert('Debe escribir un mensaje de alerta.');
-            }
-        }
-    </script>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p style="text-align:center; margin-top:20px;">No hay formularios registrados aún.</p>
+    {% endif %}
+</div>
+
+<script>
+function enviarAlerta(paciente) {
+    const mensaje = prompt(`Escribe el mensaje de alerta para ${paciente}:`, '');
+    if (mensaje && mensaje.trim() !== '') {
+        alert(`Alerta enviada al paramédico:\nPaciente: ${paciente}\nMensaje: ${mensaje}`);
+    } else if (mensaje !== null) {
+        alert('Debe escribir un mensaje de alerta.');
+    }
+}
+</script>
 {% endblock %}

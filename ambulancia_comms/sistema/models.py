@@ -27,3 +27,11 @@ class Paciente(models.Model):
     sat02 = models.IntegerField()
 
     fecha_registro = models.DateTimeField(auto_now_add=True)
+
+class Historial(models.Model):
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    descripcion = models.CharField(max_length=200)
+    tabla_afectada = models.CharField(max_length=100)
+    fecha_hora = models.DateTimeField()
+    def __str__ (self):
+        return str(self.usuario)+"-"+str(self.descripcion)+"-"+str(self.tabla_afectada)+"-"+str(self.fecha_hora)
