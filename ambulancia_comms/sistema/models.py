@@ -12,6 +12,7 @@ class Usuario(models.Model):
 class Paciente(models.Model):
     nombre = models.CharField(max_length=100)
     edad = models.IntegerField()
+    estado = models.CharField(max_length=20, default="Enviado", choices=[ ("Enviado", "Enviado"), ("En tránsito", "En tránsito"), ("Recibido", "Recibido"), ])
     genero = models.CharField(max_length=10)
     prevision = models.CharField(max_length=50)
     accidente_laboral = models.BooleanField(default=False)
@@ -25,7 +26,6 @@ class Paciente(models.Model):
     fr = models.IntegerField()
     fio2 = models.CharField(max_length=10)
     sat02 = models.IntegerField()
-
     fecha_registro = models.DateTimeField(auto_now_add=True)
 
 class Historial(models.Model):
@@ -35,3 +35,13 @@ class Historial(models.Model):
     fecha_hora = models.DateTimeField()
     def __str__ (self):
         return str(self.usuario)+"-"+str(self.descripcion)+"-"+str(self.tabla_afectada)+"-"+str(self.fecha_hora)
+    
+class Alerta(models.Model):
+    paciente = models.ForeignKey(Paciente, on_delete=models.CASCADE)
+    mensaje = models.TextField()
+    estado = models.CharField(
+        max_length=20,
+        choices=[('Pendiente', 'Pendiente'), ('Solucionado', 'Solucionado')],
+        default='Pendiente'
+    )
+    fecha = models.DateTimeField(auto_now_add=True)

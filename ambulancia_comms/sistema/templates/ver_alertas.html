@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block title %}Alertas{% endblock %}
+
+{% block content %}
+<div class="table-wrapper">
+    <h2>Alertas del sistema</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Paciente</th>
+                <th>Mensaje</th>
+                <th>Estado</th>
+                <th>Acción</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for a in alertas %}
+            <tr>
+                <td>{{ a.fecha|date:"d/m/Y H:i" }}</td>
+                <td>{{ a.paciente.nombre }}</td>
+                <td>{{ a.mensaje }}</td>
+
+                <td>
+                    {% if a.estado == "Pendiente" %}
+                    <span class="estado estado-Pendiente">Pendiente</span>
+                    {% else %}
+                    <span class="estado estado-Solucionado">Solucionado</span>
+                    {% endif %}
+                </td>
+
+                <td>
+                    {% if request.session.cargoUsuario == "Paramedico" and a.estado == "Pendiente" %}
+                    <a class="btn" href="{% url 'resolver_alerta' a.id %}">
+                        Marcar como solucionado
+                    </a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

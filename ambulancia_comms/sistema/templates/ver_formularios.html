@@ -3,7 +3,7 @@
 {% block title %}Ver Formularios{% endblock %}
 
 {% block content %}
-<div class="container_formularios">
+<div class="table-wrapper">
     <h2>Lista de Formularios</h2>
 
     {% if pa %}
@@ -15,6 +15,7 @@
                 <th>Edad</th>
                 <th>Género</th>
                 <th>Previsión</th>
+                <th>Estado</th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -26,28 +27,69 @@
                 <td>{{ f.edad }}</td>
                 <td>{{ f.genero }}</td>
                 <td>{{ f.prevision }}</td>
-                <td class="acciones-btns">
-                    <button onclick="alert('Editar {{ f.nombre }}')">Editar</button>
-                    <button onclick="alert('Derivar {{ f.nombre }}')">Derivar</button>
-                    <button onclick="enviarAlerta('{{ f.nombre }}')">Enviar alerta</button>
+                <td class="estado-td">
+                    <span class="estado-tag estado-{{ f.estado|slugify }}">{{ f.estado }}</span>
                 </td>
+                <td class="acciones-btns">
+
+                    {% if request.session.cargoUsuario == 'Paramedico' %}
+                    <a href="{% url 'editar_formulario' f.id %}" class="btn btn-editar">Editar</a>
+                    {% endif %}
+
+                    {% if request.session.cargoUsuario == 'Hospital' %}
+                    <a href="{% url 'cambiar_estado' f.id 'En tránsito' %}" class="btn btn-estado">En tránsito</a>
+                    <a href="{% url 'cambiar_estado' f.id 'Recibido' %}" class="btn btn-estado">Recibido</a>
+                    <button class="btn-accion" onclick="abrirAlerta({{ f.id }})">Enviar alerta</button>
+                    <a class="btn-accion" href="{% url 'exportar_pdf' f.id %}">Exportar a PDF</a>
+                    {% endif %}
+
+                </td>
+
             </tr>
             {% endfor %}
         </tbody>
     </table>
+    <div class="paginacion">
+        {% if pa.has_previous %}
+        <a href="?page={{ pa.previous_page_number }}">Anterior</a>
+        {% endif %}
+
+        <span>Página {{ pa.number }} de {{ pa.paginator.num_pages }}</span>
+
+        {% if pa.has_next %}
+        <a href="?page={{ pa.next_page_number }}">Siguiente</a>
+        {% endif %}
+    </div>
+
     {% else %}
     <p style="text-align:center; margin-top:20px;">No hay formularios registrados aún.</p>
     {% endif %}
 </div>
-
 <script>
-function enviarAlerta(paciente) {
-    const mensaje = prompt(`Escribe el mensaje de alerta para ${paciente}:`, '');
-    if (mensaje && mensaje.trim() !== '') {
-        alert(`Alerta enviada al paramédico:\nPaciente: ${paciente}\nMensaje: ${mensaje}`);
-    } else if (mensaje !== null) {
-        alert('Debe escribir un mensaje de alerta.');
+    function abrirAlerta(id) {
+        const mensaje = prompt("Escribe el mensaje de alerta para el paramédico:");
+
+        if (mensaje && mensaje.trim() !== "") {
+            const form = document.createElement("form");
+            form.method = "POST";
+            form.action = `/alerta/enviar/${id}/`;
+
+            const csrf = document.createElement("input");
+            csrf.type = "hidden";
+            csrf.name = "csrfmiddlewaretoken";
+            csrf.value = "{{ csrf_token }}";
+
+            const msj = document.createElement("input");
+            msj.type = "hidden";
+            msj.name = "mensaje";
+            msj.value = mensaje;
+
+            form.appendChild(csrf);
+            form.appendChild(msj);
+
+            document.body.appendChild(form);
+            form.submit();
+        }
     }
-}
 </script>
 {% endblock %}

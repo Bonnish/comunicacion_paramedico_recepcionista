@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block title %}Crear Usuario{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Crear Usuario</h2>
+
+    {% if mensaje %}
+        <p style="color:red; font-weight:bold;">{{ mensaje }}</p>
+    {% endif %}
+
+    {% if mensaje_exito %}
+        <p style="color:green; font-weight:bold;">{{ mensaje_exito }}</p>
+    {% endif %}
+
+    <form method="POST" action="{% url 'crear_usuario' %}">
+        {% csrf_token %}
+
+        <div class="row">
+            <label for="rut">RUT</label>
+            <input type="text" name="rut" placeholder="Ej: 12345678-9" required>
+        </div>
+
+        <div class="row">
+            <label for="nombre">Nombre completo</label>
+            <input type="text" name="nombre" placeholder="Nombre completo" required>
+        </div>
+
+        <div class="row">
+            <label for="email">Correo electrónico</label>
+            <input type="email" name="email" placeholder="Ej: correo@dominio.com" required>
+        </div>
+
+        <div class="row">
+            <label for="telefono">Teléfono</label>
+            <input type="text" name="telefono" placeholder="Ej: 912345678" pattern="[0-9+]+" required>
+        </div>
+
+        <div class="row">
+            <label for="cargo">Cargo</label>
+            <select name="cargo" id="cargo" required>
+                <option value="">Seleccione</option>
+                <option value="Paramedico">Paramédico</option>
+                <option value="Hospital">Hospital</option>
+                <option value="Administrador">Administrador</option>
+            </select>
+        </div>
+
+        <div class="row">
+            <label for="contraseña">Contraseña</label>
+            <input type="password" name="contraseña" placeholder="Mínimo 4 caracteres" minlength="4">
+        </div>
+
+        <button class="btn" type="submit">Crear usuario</button>
+    </form>
+</div>
+{% endblock %}

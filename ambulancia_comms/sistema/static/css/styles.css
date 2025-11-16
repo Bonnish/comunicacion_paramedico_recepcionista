@@ -6,7 +6,7 @@
 }
 
 body {
-    background-color: #f4f6f8;
+    background: #f4f6f8;
     color: #333;
 }
 
@@ -14,94 +14,98 @@ main {
     padding: 20px;
 }
 
-header {
-    background-color: #004aad;
-    color: white;
-    padding: 15px 20px;
+footer {
     text-align: center;
+    padding: 20px 10px;
+    margin-top: 30px;
+    color: #666;
+    font-size: 0.9rem;
 }
 
-header h1 {
-    margin-bottom: 10px;
+header {
+    background: #004aad;
+    color: white;
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+header span {
+    font-weight: bold;
 }
 
 header nav a {
     color: white;
     text-decoration: none;
-    margin: 0 10px;
     font-weight: bold;
+    margin-right: 10px;
 }
 
 header nav a:hover {
     text-decoration: underline;
 }
 
-footer {
-    text-align: center;
-    padding: 10px;
-    margin-top: 20px;
-    font-size: 0.9em;
-    color: #666;
+#menuDropdown {
+    position: absolute;
+    right: 20px;
+    top: 60px;
+    background: #fff;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+    display: none;
 }
 
+#menuDropdown a {
+    display: block;
+    padding: 10px 15px;
+    color: #222;
+    text-decoration: none;
+}
+
+#menuDropdown a:hover {
+    background: #e6e6e6;
+}
+
+.card-container,
+.container,
+.container_formularios,
 .container_index {
     max-width: 900px;
-    margin: 100px auto;
-    padding: 40px;
-    text-align: center;
-}
-
-.container_index h2 {
-    color: #1e3a8a;
-    font-size: 1.8rem;
-    margin-bottom: 10px;
-}
-
-.container_index p {
-    color: #333;
-    font-size: 1rem;
-    margin-bottom: 25px;
-}
-
-.buttons_index {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 10px;
-}
-
-.buttons_index .btn {
-    background-color: #004aad;
-    color: #fff;
-    text-decoration: none;
-    padding: 10px 20px;
-    border-radius: 6px;
-    font-weight: bold;
-    transition: background-color 0.2s;
-}
-
-.container {
-    max-width: 900px;
-    margin: 30px auto;
-    background-color: white;
+    margin: 25px auto;
     padding: 30px;
-    border-radius: 10px;
+    background: white;
+    border-radius: 12px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
-.btn, button {
-    background-color: #004aad;
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    text-decoration: none;
-    margin: 5px 0;
+.container_index h2 {
+    font-size: 1.8rem;
+    color: #1e3a8a;
+    margin-bottom: 10px;
 }
 
-.btn:hover, button:hover {
-    background-color: #003580;
+.buttons_index {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+.buttons_index .btn {
+    background: #004aad;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: .2s;
+}
+
+.buttons_index .btn:hover {
+    background: #003580;
 }
 
 form .row {
@@ -109,65 +113,46 @@ form .row {
 }
 
 form label {
+    font-weight: bold;
+    margin-bottom: 4px;
     display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
 }
 
-form input, form select, form textarea {
-    width: 100%;
-    padding: 8px 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
+form input,
+form select,
 form textarea {
-    min-height: 60px;
-}
-
-.grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    margin-top: 20px;
-}
-
-.container_formularios {
-    max-width: 900px;
-    margin: 30px auto;
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-}
-
-.acciones-btns {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-    box-shadow: none;
-}
-
-.grid .card {
-    flex: 1 1 calc(33.333% - 10px);
-    background-color: #e3e8f0;
-    padding: 20px;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
     border-radius: 6px;
-    text-align: center;
-    text-decoration: none;
-    color: #004aad;
-    font-weight: bold;
-    transition: background-color 0.2s;
 }
 
-.grid .card:hover {
-    background-color: #d0d7e5;
+button,
+.btn {
+    background: #004aad;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: .2s;
+}
+
+button:hover,
+.btn:hover {
+    background: #003580;
+}
+
+.table-wrapper {
+    width: 100%;
+    overflow-x: auto;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 15px;
+    background: white;
 }
 
 table th, table td {
@@ -176,11 +161,242 @@ table th, table td {
 }
 
 table th {
-    background-color: #f0f0f0;
+    background: #e8e8e8;
+    font-weight: bold;
+}
+
+/* Ajuste móvil */
+@media (max-width: 768px) {
+    table {
+        font-size: 0.9rem;
+        min-width: 600px;
+    }
+
+    .acciones-btns,
+    .acciones-usuarios,
+    .acciones-grupo {
+        flex-direction: column;
+    }
+}
+
+
+.acciones-btns,
+.acciones-usuarios {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    justify-content: center;
+}
+
+.btn-accion,
+.btn-estado {
+    padding: 7px 12px;
+    border-radius: 6px;
+    text-decoration: none;
+    color: #fff;
+    font-size: .85rem;
+    display: inline-block;
+}
+
+.btn-estado.aceptar {
+    background: #2d7dff;
+}
+
+.btn-estado.rechazar {
+    background: #d63b3b;
+}
+
+.btn-estado.tratamiento {
+    background: #ffb200;
+    color: black;
+}
+
+.btn-estado.finalizar {
+    background: #6c6c6c;
+}
+
+.btn-accion {
+    background: #004aad;
+}
+
+.btn-accion:hover,
+.btn-estado:hover {
+    filter: brightness(0.9);
+}
+
+.estado {
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.estado-Enviado {
+    background: #FFD966;
+}
+
+.estado-En\ tránsito {
+    background: #72A7FF;
+    color: rgb(88, 166, 57);
+}
+
+.estado-Recibido {
+    background: #9FE691;
+}
+
+
+
+.paginacion {
+    margin: 20px auto;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.page-btn {
+    background: #004aad;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.page-btn:hover {
+    background: #003580;
+}
+
+.page-info {
+    font-weight: bold;
 }
 
 @media (max-width: 768px) {
-    .grid .card {
+    header {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+
+    .acciones-btns,
+    .acciones-usuarios {
+        justify-content: center;
+    }
+}
+
+.menu-box {
+    max-width: 900px;
+    margin: 25px auto;
+    padding: 30px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.menu-title {
+    font-size: 1.6rem;
+    margin-bottom: 15px;
+    color: #004aad;
+    font-weight: bold;
+}
+
+.menu-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.menu-item {
+    flex: 1 1 calc(33% - 10px);
+    min-width: 180px;
+    padding: 15px;
+    background: #e3e8f0;
+    border-radius: 8px;
+    text-align: center;
+    text-decoration: none;
+    color: #004aad;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+.menu-item:hover {
+    background: #d0d7e5;
+}
+
+@media (max-width: 768px) {
+    .menu-item {
         flex: 1 1 100%;
     }
+}
+
+.estado-td {
+    text-align: center;
+}
+
+.estado-tag {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.estado-enviado {
+    background-color: #ffd86b;
+}
+
+.estado-en-transito {
+    background-color: #66a3ff;
+    color: white;
+}
+
+.estado-recibido {
+    background-color: #7ddf85;
+}
+
+.acciones-td {
+    text-align: center;
+}
+
+.acciones-grupo {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin: 6px 0;
+}
+
+.btn-accion.small,
+.btn-alerta.small {
+    padding: 6px 10px;
+    font-size: 0.85rem;
+    border-radius: 6px;
+    background-color: #004aad;
+    color: white;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color .2s;
+}
+
+.btn-accion.small:hover,
+.btn-alerta.small:hover {
+    background-color: #003580;
+}
+
+@media (max-width: 768px) {
+    .acciones-grupo {
+        flex-direction: column;
+    }
+}
+
+.estado-Pendiente {
+    background: #ffcc66;
+    padding: 5px 10px;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+.estado-Solucionado {
+    background: #8de48d;
+    padding: 5px 10px;
+    border-radius: 6px;
+    font-weight: bold;
 }

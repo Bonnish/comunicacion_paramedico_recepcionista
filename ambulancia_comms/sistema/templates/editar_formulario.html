@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% block title %}Editar Formulario{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <h2>Editar Formulario</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <div class="row">
+            <label>Nombre del paciente</label>
+            <input type="text" name="nombre" value="{{ paciente.nombre }}" required>
+        </div>
+
+        <div class="row">
+            <label>Edad</label>
+            <input type="number" name="edad" value="{{ paciente.edad }}" required>
+        </div>
+
+        <div class="row">
+            <label>Género</label>
+            <select name="genero" required>
+                <option value="Masculino" {% if paciente.genero == "Masculino" %}selected{% endif %}>Masculino</option>
+                <option value="Femenino" {% if paciente.genero == "Femenino" %}selected{% endif %}>Femenino</option>
+            </select>
+        </div>
+
+        <div class="row">
+            <label>Previsión</label>
+            <input type="text" name="prevision" value="{{ paciente.prevision }}">
+        </div>
+
+        <div class="row">
+            <label>Accidente laboral</label>
+            <select name="accidente_laboral">
+                <option value="True" {% if paciente.accidente_laboral %}selected{% endif %}>Sí</option>
+                <option value="False" {% if not paciente.accidente_laboral %}selected{% endif %}>No</option>
+            </select>
+        </div>
+
+        <div class="row">
+            <label>Comorbilidades</label>
+            <textarea name="comorbilidades">{{ paciente.comorbilidades }}</textarea>
+        </div>
+
+        <div class="row">
+            <label>Funcionalidad</label>
+            <input type="text" name="funcionalidad" value="{{ paciente.funcionalidad }}">
+        </div>
+
+        <div class="row">
+            <label>Motivo derivación</label>
+            <textarea name="motivo_derivacion">{{ paciente.motivo_derivacion }}</textarea>
+        </div>
+
+        <div class="row">
+            <label for="prestacion_requerida">Prestación requerida:</label>
+            <textarea id="prestacion_requerida" name="prestacion_requerida"
+                required>{{ paciente.prestacion_requerida }}</textarea>
+        </div>
+
+        <div class="row">
+            <label>Glasgow</label>
+            <input type="number" name="glasgow" value="{{ paciente.glasgow }}">
+        </div>
+
+        <div class="row">
+            <label>Llenado capilar</label>
+            <input type="text" name="llenado_capilar" value="{{ paciente.llenado_capilar }}">
+        </div>
+
+        <div class="row">
+            <label>Frecuencia cardiaca (FC)</label>
+            <input type="number" name="fc" value="{{ paciente.fc }}">
+        </div>
+
+        <div class="row">
+            <label>Frecuencia respiratoria (FR)</label>
+            <input type="number" name="fr" value="{{ paciente.fr }}">
+        </div>
+
+        <div class="row">
+            <label>FiO2</label>
+            <input type="text" name="fio2" value="{{ paciente.fio2 }}">
+        </div>
+
+        <div class="row">
+            <label>Saturación O2</label>
+            <input type="number" name="sat02" value="{{ paciente.sat02 }}">
+        </div>
+
+        <button class="btn">Guardar cambios</button>
+
+    </form>
+</div>
+
+{% endblock %}

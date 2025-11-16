@@ -1,93 +1,93 @@
 {% extends 'base.html' %}
 {% block title %}Formulario Ambulancia{% endblock %}
 {% block content %}
-    <div class="container">
-        {% if mensaje %}
-        <div style="background-color:#d1e7dd; color:#0f5132; border:1px solid #badbcc; padding:10px 15px; border-radius:6px; margin-bottom:20px; text-align:center; font-weight:bold;">
-            {{ mensaje }}
-        </div>
-        {% endif %}
-
-        <h1>Formulario de Derivación — Ambulancia</h1>
-        <form method="post" action="{% url 'formulario' %}">
-            {% csrf_token %}
-            <div class="row">
-                <label for="nombre">Nombre del paciente</label>
-                <input type="text" id="nombre" name="nombre" required>
-            </div>
-            <div class="row">
-                <label for="edad">Edad</label>
-                <input type="number" id="edad" name="edad" min="0" required>
-            </div>
-            <div class="row">
-                <label>Género</label>
-                <label><input type="radio" name="genero" value="Masculino" required> Masculino</label>
-                <label><input type="radio" name="genero" value="Femenino"> Femenino</label>
-            </div>
-            <div class="row">
-                <label for="prevision">Previsión</label>
-                <select id="prevision" name="prevision" required>
-                    <option value="">Seleccione</option>
-                    <option value="Fonasa">Fonasa</option>
-                    <option value="Isapre">Isapre</option>
-                    <option value="Dipreca">Dipreca</option>
-                    <option value="Particular">Particular</option>
-                </select>
-            </div>
-            <div class="row">
-                <label>Accidente laboral</label>
-                <label><input type="radio" name="accidente_laboral" value="True" required> Sí</label>
-                <label><input type="radio" name="accidente_laboral" value="False"> No</label>
-            </div>
-            <div class="row">
-                <label for="comorbilidades">Comorbilidades</label>
-                <textarea id="comorbilidades" name="comorbilidades"></textarea>
-            </div>
-            <div class="row">
-                <label for="funcionalidad">Funcionalidad</label>
-                <textarea id="funcionalidad" name="funcionalidad"></textarea>
-            </div>
-            <div class="row">
-                <label for="motivo_derivacion">Motivo de derivación</label>
-                <textarea id="motivo_derivacion" name="motivo_derivacion"></textarea>
-            </div>
-            <div class="row">
-                <label for="prestacion_requerida">Prestación requerida / Evaluación</label>
-                <textarea id="prestacion_requerida" name="prestacion_requerida"></textarea>
-            </div>
-
-            <hr>
-            <h3>Signos Vitales</h3>
-
-            <div class="row">
-                <label for="glasgow">Glasgow</label>
-                <input type="number" id="glasgow" name="glasgow" min="3" max="15" required>
-            </div>
-            <div class="row">
-                <label for="llenado_capilar">Llenado capilar</label>
-                <input type="text" id="llenado_capilar" name="llenado_capilar">
-            </div>
-            <div class="row">
-                <label for="fc">FC (Frecuencia Cardíaca)</label>
-                <input type="number" id="fc" name="fc">
-            </div>
-            <div class="row">
-                <label for="fr">FR (Frecuencia Respiratoria)</label>
-                <input type="number" id="fr" name="fr">
-            </div>
-            <div class="row">
-                <label for="fio2">FiO₂</label>
-                <input type="text" id="fio2" name="fio2">
-            </div>
-            <div class="row">
-                <label for="sat02">SatO₂ (%)</label>
-                <input type="number" id="sat02" name="sat02">
-            </div>
-
-            <div class="actions">
-                <button type="submit">Enviar</button>
-                <button type="reset" class="secondary">Limpiar</button>
-            </div>
-        </form>
+<div class="container">
+    {% if mensaje %}
+    <div
+        style="background-color:#d1e7dd; color:#0f5132; border:1px solid #badbcc; padding:10px 15px; border-radius:6px; margin-bottom:20px; text-align:center; font-weight:bold;">
+        {{ mensaje }}
     </div>
+    {% endif %}
+
+    <h1>Formulario de Derivación — Ambulancia</h1>
+    <form method="post" action="{% url 'formulario' %}">
+        {% csrf_token %}
+        <div class="row">
+            <label for="nombre">Nombre del paciente</label>
+            <input type="text" id="nombre" name="nombre" placeholder="Ej: Juan Pérez" required>
+        </div>
+        <div class="row">
+            <label for="edad">Edad</label>
+            <input type="number" id="edad" name="edad" placeholder="Ej: 45" min="0" max="120" required>
+        </div>
+        <div class="row">
+            <label>Género</label>
+            <label><input type="radio" name="genero" value="Masculino" required> Masculino</label>
+            <label><input type="radio" name="genero" value="Femenino"> Femenino</label>
+        </div>
+        <div class="row">
+            <label for="prevision">Previsión</label>
+            <select id="prevision" name="prevision" required>
+                <option value="">Seleccione</option>
+                <option value="Fonasa">Fonasa</option>
+                <option value="Isapre">Isapre</option>
+                <option value="Dipreca">Dipreca</option>
+                <option value="Particular">Particular</option>
+            </select>
+        </div>
+        <div class="row">
+            <label>Accidente laboral</label>
+            <label><input type="radio" name="accidente_laboral" value="True" required> Sí</label>
+            <label><input type="radio" name="accidente_laboral" value="False"> No</label>
+        </div>
+        <div class="row">
+            <label for="comorbilidades">Comorbilidades</label>
+            <textarea id="comorbilidades" name="comorbilidades" placeholder="Ej: Diabetes, Hipertensión..."></textarea>
+        </div>
+        <div class="row">
+            <label for="funcionalidad">Funcionalidad</label>
+            <textarea id="funcionalidad" name="funcionalidad" placeholder="Ej: VGI + EVF"></textarea>
+        </div>
+        <div class="row">
+            <label for="motivo_derivacion">Motivo de derivación</label>
+            <textarea id="motivo" name="motivo_derivacion" placeholder="Describe el motivo..."></textarea>
+        </div>
+        <div class="row">
+            <label for="prestacion_requerida">Prestación requerida:</label>
+            <textarea id="prestacion_requerida" name="prestacion_requerida"
+                placeholder="Ej: evaluación cardiológica urgente, pabellón, oxigenoterapia, triage avanzado, radiografía, etc."
+                required></textarea>
+        </div>
+        <hr>
+        <div class="row">
+            <label for="glasgow">Glasgow</label>
+            <input type="number" id="glasgow" name="glasgow" min="3" max="15" required>
+        </div>
+        <div class="row">
+            <label for="llenado_capilar">Llenado capilar</label>
+            <input type="text" id="llenado_capilar" name="llenado_capilar">
+        </div>
+        <div class="row">
+            <label for="fc">FC (Frecuencia Cardíaca)</label>
+            <input type="number" id="fc" name="fc" placeholder="Ej: 70" min="20" max="200">
+        </div>
+        <div class="row">
+            <label for="fr">FR (Frecuencia Respiratoria)</label>
+            <input type="number" id="fr" name="fr" placeholder="Ej: 18" min="5" max="60">
+        </div>
+        <div class="row">
+            <label for="fio2">FiO₂</label>
+            <input type="text" id="fio2" name="fio2" placeholder="Ej: 21%">
+        </div>
+        <div class="row">
+            <label for="sat02">SatO₂ (%)</label>
+            <input type="text" id="sat02" name="sat02" placeholder="Ej: 95%">
+        </div>
+
+        <div class="actions">
+            <button type="submit">Enviar</button>
+            <button type="reset" class="secondary">Limpiar</button>
+        </div>
+    </form>
+</div>
 {% endblock %}

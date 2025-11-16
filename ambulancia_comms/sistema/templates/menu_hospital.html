@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 {% block title %}Menú Hospital{% endblock %}
+
 {% block content %}
-    <div class="container">
-        <h2>Menú Recepcionista / Hospital</h2>
-        <div class="grid">
-            <a href="{% url 'ver_formularios' %}" class="card">Ver formularios</a>
-            <a href="{% url 'derivar_paciente' %}" class="card">Derivar paciente</a>
-            <a href="#" class="card">Convertir PDF (No disponible)</a>
-            <a href="#" class="card">Convertir Excel (No disponible)</a>
-        </div>
+<div class="menu-box">
+    <h2 class="menu-title">Menú Hospital</h2>
+
+    <div class="menu-grid">
+        <a href="{% url 'ver_formularios' %}" class="menu-item">Ver formularios</a>
+        <a class="menu-item" href="{% url 'exportar_excel' %}">Exportar TODOS a Excel</a>
     </div>
+</div>
 {% endblock %}

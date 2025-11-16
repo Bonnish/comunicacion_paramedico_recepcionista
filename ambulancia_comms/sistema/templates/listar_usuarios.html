@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block title %}Usuarios{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Gestión de Usuarios</h2>
+
+    {% if mensaje %}
+    <p style="color:red;">{{ mensaje }}</p>
+    {% endif %}
+    {% if mensaje_exito %}
+    <p style="color:green;">{{ mensaje_exito }}</p>
+    {% endif %}
+
+    <table>
+        <thead>
+            <tr>
+                <th>RUT</th>
+                <th>Nombre</th>
+                <th>Cargo</th>
+                <th>Email</th>
+                <th>Teléfono</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for u in usuarios %}
+            <tr>
+                <td>{{ u.rut }}</td>
+                <td>{{ u.nombre }}</td>
+                <td>{{ u.cargo }}</td>
+                <td>{{ u.email }}</td>
+                <td>{{ u.telefono }}</td>
+                <td class="acciones-usuarios">
+                    <a href="{% url 'editar_usuario' u.id %}" class="btn-accion">Editar</a>
+                    <a href="{% url 'eliminar_usuario' u.id %}" class="btn-accion"
+                        style="background-color:#d9534f;">Eliminar</a>
+                </td>
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="paginacion">
+        {% if usuarios.has_previous %}
+        <a class="page-btn" href="?page={{ usuarios.previous_page_number }}">« Anterior</a>
+        {% endif %}
+
+        <span class="page-info">Página {{ usuarios.number }} de {{ usuarios.paginator.num_pages }}</span>
+
+        {% if usuarios.has_next %}
+        <a class="page-btn" href="?page={{ usuarios.next_page_number }}">Siguiente »</a>
+        {% endif %}
+    </div>
+
+
+</div>
+{% endblock %}

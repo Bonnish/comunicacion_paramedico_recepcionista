@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}Historial{% endblock %}
+
+{% block content %}
+<div class="container_formularios">
+    <h2>Historial del Sistema</h2>
+
+    {% if historial %}
+    <table>
+        <thead>
+            <tr>
+                <th>Fecha / Hora</th>
+                <th>Usuario</th>
+                <th>Descripción</th>
+                <th>Tabla</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for h in historial %}
+            <tr>
+                <td>{{ h.fecha_hora|date:"d/m/Y H:i" }}</td>
+                <td>{{ h.usuario.nombre }}</td>
+                <td>{{ h.descripcion }}</td>
+                <td>{{ h.tabla_afectada }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="paginacion">
+        {% if historial.has_previous %}
+            <a href="?page={{ historial.previous_page_number }}" class="btn">Anterior</a>
+        {% endif %}
+
+        <span>Página {{ historial.number }} de {{ historial.paginator.num_pages }}</span>
+
+        {% if historial.has_next %}
+            <a href="?page={{ historial.next_page_number }}" class="btn">Siguiente</a>
+        {% endif %}
+    </div>
+
+    {% else %}
+    <p style="text-align:center; margin-top:20px;">No hay historial registrado aún.</p>
+    {% endif %}
+</div>
+{% endblock %}

@@ -3,42 +3,42 @@
 {% block title %}Derivar Paciente{% endblock %}
 
 {% block content %}
-    <div class="container">
+<div class="container">
     <h2>Derivar Paciente</h2>
     <form id="derivarForm">
-    <div class="row">
-        <label for="paciente">Paciente:</label>
-        <select id="paciente" name="paciente">
-            <option value="Juan Pérez">Juan Pérez</option>
-            <option value="María López">María López</option>
-            <option value="Pedro González">Pedro González</option>
-        </select>
-    </div>
-    <div class="row">
-        <label for="hospital">Hospital destino:</label>
-        <select id="hospital" name="hospital">
-            <option value="Hospital A">Hospital A</option>
-            <option value="Hospital B">Hospital B</option>
-        </select>
-    </div>
-    <div class="row">
-        <label for="prioridad">Prioridad:</label>
-        <select id="prioridad" name="prioridad">
-            <option value="Alta">Alta</option>
-            <option value="Media">Media</option>
-            <option value="Baja">Baja</option>
-        </select>
-    </div>
-    <div class="actions">
-        <button type="submit">Derivar</button>
-    </div>
-    <script>
-        document.getElementById('derivarForm').addEventListener('submit', e => {
-            e.preventDefault();
-            const paciente = document.getElementById('paciente').value;
-            const hospital = document.getElementById('hospital').value;
-            const prioridad = document.getElementById('prioridad').value;
-            alert(`Paciente "${paciente}" derivado a "${hospital}" con prioridad "${prioridad}" (simuluacion)`);
-        });
-    </script>
-{% endblock %}
+        <div class="row">
+            <label for="paciente">Paciente:</label>
+            <select id="paciente" name="paciente">
+                <option value="Juan Pérez">Juan Pérez</option>
+                <option value="María López">María López</option>
+                <option value="Pedro González">Pedro González</option>
+            </select>
+        </div>
+        <div class="row">
+            <label for="hospital">Hospital destino:</label>
+            <select id="hospital" name="hospital">
+                <option value="Hospital A">Hospital A</option>
+                <option value="Hospital B">Hospital B</option>
+            </select>
+        </div>
+        <div class="row">
+            <label for="prioridad">Prioridad:</label>
+            <select id="prioridad" name="prioridad">
+                <option value="Alta">Alta</option>
+                <option value="Media">Media</option>
+                <option value="Baja">Baja</option>
+            </select>
+        </div>
+        <div class="actions">
+            <button type="submit">Derivar</button>
+        </div>
+        <script>
+            document.getElementById('derivarForm').addEventListener('submit', e => {
+                e.preventDefault();
+                const paciente = document.getElementById('paciente').value;
+                const hospital = document.getElementById('hospital').value;
+                const prioridad = document.getElementById('prioridad').value;
+                alert(`Paciente "${paciente}" derivado a "${hospital}" con prioridad "${prioridad}" (simuluacion)`);
+            });
+        </script>
+        {% endblock %}

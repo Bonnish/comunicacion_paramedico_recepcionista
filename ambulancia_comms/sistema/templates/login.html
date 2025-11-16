@@ -1,26 +1,61 @@
 {% extends 'base.html' %}
 {% block title %}Login{% endblock %}
+
 {% block content %}
 <div class="container">
     <h2>Iniciar sesión</h2>
 
     {% if mensaje %}
-    <p style="color:red;">{{ mensaje }}</p>
+    <p style="color:red; font-weight:bold; margin-bottom:15px;">{{ mensaje }}</p>
     {% endif %}
 
     <form method="post" action="{% url 'procesar_login' %}">
         {% csrf_token %}
         <div class="row">
             <label for="rut">RUT:</label>
-            <input type="text" id="txtrut" name="txtrut">
+            <input type="text" id="txtrut" name="txtrut" placeholder="Ej: 12345678-9" maxlength="12"
+                pattern="^[0-9]{7,8}-[0-9kK]$" required>
         </div>
+
         <div class="row">
             <label for="txtpas">Contraseña:</label>
-            <input type="password" id="txtpas" name="txtpas">
+            <input type="password" id="txtpas" name="txtpas" placeholder="Ingrese su contraseña" required>
         </div>
+
         <div class="actions">
             <button type="submit">Ingresar</button>
         </div>
     </form>
+
+    <div style="margin-top:25px; padding:15px; background:#e6f0ff; border:1px solid #bcd0ff; border-radius:8px;">
+        <h3 style="margin-bottom:10px; color:#004aad;">Cuentas de demostración</h3>
+
+        <p><strong>Paramédico Demo</strong><br>
+            RUT: <span style="color:#004aad;">22123123-1</span><br>
+            Correo: paramedico@demo.cl<br>
+            Contraseña: <strong>paramedico</strong></p>
+
+        <p style="margin-top:10px;"><strong>Hospital Demo</strong><br>
+            RUT: <span style="color:#004aad;">21123132-2</span><br>
+            Correo: hospital@demo.cl<br>
+            Contraseña: <strong>Hospital</strong></p>
+
+        <p style="margin-top:10px;"><strong>Administrador Demo</strong><br>
+            RUT: <span style="color:#004aad;">20123321-3</span><br>
+            Correo: administrador@demo.cl<br>
+            Contraseña: <strong>Administrador</strong></p>
+    </div>
 </div>
+
+<script>
+    document.getElementById("txtrut").addEventListener("input", function () {
+        let v = this.value;
+        v = v.replace(/[^0-9kK\-]/g, "");
+        let parts = v.split("-");
+        if (parts.length > 2) {
+            v = parts[0] + "-" + parts[1];
+        }
+        this.value = v;
+    });
+</script>
 {% endblock %}

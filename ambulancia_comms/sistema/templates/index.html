@@ -3,20 +3,22 @@
 {% block title %}Inicio{% endblock %}
 
 {% block content %}
-    <div class="container_index">
+<div class="container_index">
 
-        {% if mensaje %}
-        <div style="background-color:#d1e7dd; color:#0f5132; border:1px solid #badbcc; padding:10px 15px; border-radius:6px; margin-bottom:20px; text-align:center; font-weight:bold;">
-            {{ mensaje }}
-        </div>
-        {% endif %}
-
-        <h2>Bienvenido al Sistema de Comunicación Ambulancia-Hospital</h2>
-        <p>Este prototipo permite simular la comunicación entre paramédicos y el hospital de manera rápida y segura.</p>
-        <div class="buttons_index">
-            <a href="{% url 'mostrar_login' %}" class="btn">Iniciar sesión</a>
-            <a href="{% url 'menu_paramedico' %}" class="btn">Ir al Menú Paramédico (demo)</a>
-            <a href="{% url 'menu_hospital' %}" class="btn">Ir al Menú Hospital (demo)</a>
-        </div>
+    {% if mensaje %}
+    <div
+        style="background-color:#d1e7dd; color:#0f5132; border:1px solid #badbcc; padding:10px 15px; border-radius:6px; margin-bottom:20px; text-align:center; font-weight:bold;">
+        {{ mensaje }}
     </div>
+    {% endif %}
+
+    <h2>Bienvenido al Sistema de Comunicación Ambulancia-Hospital</h2>
+    <p>Prototipo creado para mejorar la transferencia de información entre paramédicos y personal hospitalario.
+        Permite registrar pacientes, actualizar su estado, enviar alertas, y visualizar historial de acciones.</p>
+    <div class="buttons_index">
+        <a href="{% url 'mostrar_login' %}" class="btn">Iniciar sesión</a>
+        <a href="{% url 'menu_paramedico' %}" class="btn">Ir al Menú Paramédico</a>
+        <a href="{% url 'menu_hospital' %}" class="btn">Ir al Menú Hospital</a>
+    </div>
+</div>
 {% endblock %}
