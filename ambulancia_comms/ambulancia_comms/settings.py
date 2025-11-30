@@ -26,6 +26,8 @@ SECRET_KEY = 'django-insecure-jz8n^&0zv26tj#3=0m%etl4(lg*z%1(ebx!&1(vgv#q@%gs@u%
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+SESSION_IDLE_TIMEOUT = 1800
+
 ALLOWED_HOSTS = []
 
 
@@ -49,6 +51,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'ambulancia_comms.middleware.session_timeout.SessionTimeoutMiddleware',
 ]
 
 ROOT_URLCONF = 'ambulancia_comms.urls'

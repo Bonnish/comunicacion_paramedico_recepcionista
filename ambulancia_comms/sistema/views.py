@@ -1,7 +1,11 @@
 from datetime import datetime
 from openpyxl import Workbook
 from reportlab.pdfgen import canvas
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.pagesizes import letter
+from reportlab.lib import colors
+from reportlab.lib.units import inch
 import io
 from django.http import FileResponse, HttpResponse
 from django.contrib.auth.hashers import make_password, check_password
@@ -9,8 +13,12 @@ from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
 from .models import Usuario, Paciente, Historial, Alerta
 
+# Funcion para mostrar la pagina index
+
 def index(request):
     return render(request, 'index.html')
+
+# Funcion para exportar los formularios a excel
 
 def exportar_excel(request):
     if not request.session.get('estadoSesion') or request.session.get('cargoUsuario') not in ['Hospital', 'Administrador']:
@@ -41,6 +49,8 @@ def exportar_excel(request):
     wb.save(response)
     return response
 
+# Funcion para exportar el formulario seleccionado a pdf con diseño
+
 def exportar_pdf(request, id):
     if not request.session.get('estadoSesion') or request.session.get('cargoUsuario') not in ['Hospital', 'Administrador']:
         return render(request, 'index.html', {'mensaje': 'Acceso denegado.'})
@@ -51,42 +61,114 @@ def exportar_pdf(request, id):
         return render(request, 'index.html', {'mensaje': 'Formulario no encontrado'})
 
     buffer = io.BytesIO()
-    pdf = canvas.Canvas(buffer, pagesize=letter)
 
-    pdf.setFont("Helvetica-Bold", 16)
-    pdf.drawString(200, 750, "Formulario de Paciente")
+    pdf = SimpleDocTemplate(
+        buffer,
+        pagesize=letter,
+        rightMargin=40,
+        leftMargin=40,
+        topMargin=55,
+        bottomMargin=40
+    )
 
-    pdf.setFont("Helvetica", 12)
-    y = 720
+    styles = getSampleStyleSheet()
 
-    def linea(texto):
-        nonlocal y
-        pdf.drawString(50, y, texto)
-        y -= 20
+    azul = colors.HexColor("#004aad")
+    azul_oscuro = colors.HexColor("#003580")
+    blanco = colors.white
 
-    linea(f"Nombre: {paciente.nombre}")
-    linea(f"Edad: {paciente.edad}")
-    linea(f"Estado: {paciente.estado}")
-    linea(f"Género: {paciente.genero}")
-    linea(f"Previsión: {paciente.prevision}")
-    linea(f"Accidente laboral: {'Sí' if paciente.accidente_laboral else 'No'}")
-    linea(f"Comorbilidades: {paciente.comorbilidades}")
-    linea(f"Funcionalidad: {paciente.funcionalidad}")
-    linea(f"Motivo derivación: {paciente.motivo_derivacion}")
-    linea(f"Prestación requerida: {paciente.prestacion_requerida}")
-    linea(f"Glasgow: {paciente.glasgow}")
-    linea(f"Llenado capilar: {paciente.llenado_capilar}")
-    linea(f"FC: {paciente.fc}")
-    linea(f"FR: {paciente.fr}")
-    linea(f"FiO2: {paciente.fio2}")
-    linea(f"SatO2: {paciente.sat02}")
-    linea(f"Fecha registro: {paciente.fecha_registro.strftime('%d/%m/%Y %H:%M')}")
+    header_style = ParagraphStyle(
+        name="HeaderStyle",
+        parent=styles["Heading1"],
+        alignment=1,
+        fontSize=20,
+        textColor=blanco,
+        spaceAfter=10
+    )
 
-    pdf.showPage()
-    pdf.save()
+    subtitulo_style = ParagraphStyle(
+        name="Subtitulo",
+        parent=styles["Heading2"],
+        fontSize=14,
+        textColor=azul,
+        spaceAfter=6
+    )
 
+    normal = styles["Normal"]
+
+    contenido = []
+
+    header = Table(
+        [[Paragraph("Formulario de Paciente", header_style)]],
+        colWidths=[500]
+    )
+    header.setStyle(TableStyle([
+        ("BACKGROUND", (0, 0), (-1, -1), azul),
+        ("ALIGN", (0, 0), (-1, -1), "CENTER"),
+        ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+        ("TOPPADDING", (0, 0), (-1, -1), 14),
+        ("BOTTOMPADDING", (0, 0), (-1, -1), 14),
+    ]))
+
+    contenido.append(header)
+    contenido.append(Spacer(1, 18))
+
+    contenido.append(Paragraph("Datos del Paciente", subtitulo_style))
+
+    data = [
+        ["Nombre:", paciente.nombre],
+        ["Edad:", paciente.edad],
+        ["Estado:", paciente.estado],
+        ["Género:", paciente.genero],
+        ["Previsión:", paciente.prevision],
+        ["Accidente laboral:", "Sí" if paciente.accidente_laboral else "No"],
+        ["Comorbilidades:", paciente.comorbilidades],
+        ["Funcionalidad:", paciente.funcionalidad],
+        ["Motivo derivación:", paciente.motivo_derivacion],
+        ["Prestación requerida:", paciente.prestacion_requerida],
+        ["Glasgow:", paciente.glasgow],
+        ["Llenado capilar:", paciente.llenado_capilar],
+        ["FC:", paciente.fc],
+        ["FR:", paciente.fr],
+        ["FiO2:", paciente.fio2],
+        ["SatO2:", paciente.sat02],
+        ["Fecha registro:", paciente.fecha_registro.strftime('%d/%m/%Y %H:%M')],
+    ]
+
+    tabla = Table(data, colWidths=[160, 300])
+
+    tabla.setStyle(TableStyle([
+        ("BACKGROUND", (0, 0), (-1, -1), blanco),
+
+        ("TEXTCOLOR", (0, 0), (0, -1), azul),
+
+        ("TEXTCOLOR", (1, 0), (1, -1), colors.black),
+
+        ("GRID", (0, 0), (-1, -1), 0.6, azul),
+
+        ("LEFTPADDING", (0, 0), (-1, -1), 8),
+        ("RIGHTPADDING", (0, 0), (-1, -1), 8),
+        ("TOPPADDING", (0, 0), (-1, -1), 6),
+        ("BOTTOMPADDING", (0, 0), (-1, -1), 6),
+    ]))
+
+    contenido.append(tabla)
+    contenido.append(Spacer(1, 25))
+
+    footer = Paragraph(
+        "<para align='center' color='#004aad' fontSize='10'>"
+        "Documento generado automáticamente por el sistema"
+        "</para>",
+        normal
+    )
+    contenido.append(footer)
+
+    pdf.build(contenido)
     buffer.seek(0)
+
     return FileResponse(buffer, as_attachment=True, filename=f"paciente_{paciente.id}.pdf")
+
+# Funcion para mostrar la pagina de creacion de usuarios
 
 def mostrar_crear_usuario(request):
     estado = request.session.get('estadoSesion')
@@ -97,6 +179,8 @@ def mostrar_crear_usuario(request):
         return render(request, 'index.html', datos)
 
     return render(request, 'crear_usuario.html')
+
+# Funcion para crear un usuario nuevo
 
 def crear_usuario(request):
     estado = request.session.get('estadoSesion')
@@ -143,6 +227,8 @@ def crear_usuario(request):
 
     return render(request, 'crear_usuario.html')
 
+# Funcion para listar los usuarios en la base de datos
+
 def listar_usuarios(request):
     if not request.session.get('estadoSesion') or request.session.get('cargoUsuario') != 'Administrador':
         return render(request, 'index.html', {'mensaje': 'Acceso denegado.'})
@@ -153,6 +239,8 @@ def listar_usuarios(request):
     usuarios = paginator.get_page(page)
 
     return render(request, 'listar_usuarios.html', {'usuarios': usuarios})
+
+# Funcion para editar algun campo del usuario en la base de datos
 
 def editar_usuario(request, id):
     estado = request.session.get('estadoSesion')
@@ -191,6 +279,8 @@ def editar_usuario(request, id):
 
     return render(request, 'editar_usuario.html', {'usuario': usuario})
 
+# Funcion para eliminar un usuario de la base de datos
+
 def eliminar_usuario(request, id):
     estado = request.session.get('estadoSesion')
     cargo = request.session.get('cargoUsuario')
@@ -224,6 +314,8 @@ def eliminar_usuario(request, id):
                   {'mensaje_exito': 'Usuario eliminado correctamente.',
                    'usuarios': Usuario.objects.all()})
 
+# Funcion para mostrar el menu del usuario con el cargo "Paramedico"
+
 def menu_paramedico(request):
     estado_sesion = request.session.get('estadoSesion')
     cargo_usuario = request.session.get('cargoUsuario')
@@ -239,6 +331,8 @@ def menu_paramedico(request):
     else:
         datos = {'mensaje': 'Por favor, inicie sesión para acceder al menú de Paramedico.'}
         return render(request, 'index.html', datos)
+    
+# Funcion para mostrar el menu del usuario con el cargo "Hospital"
 
 def menu_hospital(request):
     estado_sesion = request.session.get('estadoSesion')
@@ -265,6 +359,8 @@ def mostrar_derivar_paciente(request):
     else:
         datos = {'mensaje': 'Acceso no autorizado. Por favor, inicie sesión con una cuenta de Paramedico.'}
         return render(request, 'index.html', datos)
+    
+# Funcion para mostrar la pagina del formulario
 
 def mostrar_enviar_formulario(request):
     estado_sesion = request.session.get('estadoSesion')
@@ -275,6 +371,8 @@ def mostrar_enviar_formulario(request):
     else:
         datos = {'mensaje': 'Acceso no autorizado. Inicie sesión con una cuenta de Paramedico o Administrador.'}
         return render(request, 'index.html', datos)
+
+# Funcion para enviar formulario a la base de datos
 
 def enviar_formulario(request):
     if not request.session.get('estadoSesion') or request.session.get('cargoUsuario') not in ['Paramedico', 'Administrador']:
@@ -340,6 +438,8 @@ def enviar_formulario(request):
         'mensaje': 'No se puede procesar la solicitud'
     })
 
+# Funcion para cambiar el estado de los pacientes
+
 def cambiar_estado(request, id_paciente, nuevo_estado):
     estado_sesion = request.session.get('estadoSesion')
     cargo = request.session.get('cargoUsuario')
@@ -367,6 +467,8 @@ def cambiar_estado(request, id_paciente, nuevo_estado):
 
     except Paciente.DoesNotExist:
         return render(request, 'index.html', {'mensaje': 'Paciente no encontrado'})
+
+# Funcion para editar formularios
 
 def editar_formulario(request, id):
     if request.session.get('cargoUsuario') != 'Paramedico':
@@ -405,6 +507,8 @@ def editar_formulario(request, id):
         'nomUsuario': request.session['nomUsuario']
     })
 
+# Funcion para ver los formularios
+
 def ver_formularios(request):
     if not request.session.get('estadoSesion'):
         datos = {'mensaje': 'Debe iniciar sesión para ver los formularios.'}
@@ -421,6 +525,8 @@ def ver_formularios(request):
     }
     return render(request, 'ver_formularios.html', datos)
 
+# Funcion para mostrar la pagina del login
+
 def mostrar_login(request):
     estado_sesion = request.session.get('estadoSesion')
 
@@ -429,6 +535,8 @@ def mostrar_login(request):
         return render(request, 'index.html', {'mensaje': mensaje})
     else:
         return render(request, 'login.html')
+    
+# Funcion para procesar los datos del login
 
 def procesar_login(request):
     if request.session.get('estadoSesion'):
@@ -468,6 +576,8 @@ def procesar_login(request):
         else:
             mensaje = "RUT o Contraseña incorrectos. Intente nuevamente."
             return render(request, 'login.html', {'mensaje': mensaje})
+        
+# Funcion para ver el historial de acciones de usuario (Menu Administrador)
 
 def ver_historial(request):
     estado = request.session.get('estadoSesion')
@@ -490,6 +600,8 @@ def ver_historial(request):
 
     return render(request, 'historial.html', datos)
 
+# Funcion para envair alerta al paramedico (Menu Hospital)
+
 def enviar_alerta(request, id_paciente):
     if request.session.get('cargoUsuario') != 'Hospital':
         return render(request, 'index.html', {'mensaje': 'Acceso denegado.'})
@@ -507,6 +619,8 @@ def enviar_alerta(request, id_paciente):
 
     return redirect('ver_formularios')
 
+# Funcion para cambiar estado alerta (Menu paramedico)
+
 def resolver_alerta(request, id_alerta):
     if request.session.get('cargoUsuario') != 'Paramedico':
         return render(request, 'index.html', {'mensaje': 'Acceso denegado.'})
@@ -520,6 +634,8 @@ def resolver_alerta(request, id_alerta):
 
     return redirect('ver_alertas')
 
+# Funcion para ver alertas (Menu paramedico)
+
 def ver_alertas(request):
     cargo = request.session.get('cargoUsuario')
 
@@ -531,6 +647,8 @@ def ver_alertas(request):
         return render(request, 'index.html', {'mensaje': 'Acceso denegado.'})
 
     return render(request, 'ver_alertas.html', {'alertas': alertas})
+
+# Funcion de cierre de sesión
 
 def cerrar_sesion(request):
     rut = request.session.get('rutUsuario')
