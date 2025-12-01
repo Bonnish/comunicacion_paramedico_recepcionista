@@ -96,6 +96,8 @@ def exportar_pdf(request, id):
 
     normal = styles["Normal"]
 
+    parrafo = lambda t: Paragraph(str(t), normal)
+
     contenido = []
 
     header = Table(
@@ -116,23 +118,23 @@ def exportar_pdf(request, id):
     contenido.append(Paragraph("Datos del Paciente", subtitulo_style))
 
     data = [
-        ["Nombre:", paciente.nombre],
-        ["Edad:", paciente.edad],
-        ["Estado:", paciente.estado],
-        ["Género:", paciente.genero],
-        ["Previsión:", paciente.prevision],
-        ["Accidente laboral:", "Sí" if paciente.accidente_laboral else "No"],
-        ["Comorbilidades:", paciente.comorbilidades],
-        ["Funcionalidad:", paciente.funcionalidad],
-        ["Motivo derivación:", paciente.motivo_derivacion],
-        ["Prestación requerida:", paciente.prestacion_requerida],
-        ["Glasgow:", paciente.glasgow],
-        ["Llenado capilar:", paciente.llenado_capilar],
-        ["FC:", paciente.fc],
-        ["FR:", paciente.fr],
-        ["FiO2:", paciente.fio2],
-        ["SatO2:", paciente.sat02],
-        ["Fecha registro:", paciente.fecha_registro.strftime('%d/%m/%Y %H:%M')],
+        ["Nombre:", parrafo(paciente.nombre)],
+        ["Edad:", parrafo(paciente.edad)],
+        ["Estado:", parrafo(paciente.estado)],
+        ["Género:", parrafo(paciente.genero)],
+        ["Previsión:", parrafo(paciente.prevision)],
+        ["Accidente laboral:", parrafo("Sí" if paciente.accidente_laboral else "No")],
+        ["Comorbilidades:", parrafo(paciente.comorbilidades)],
+        ["Funcionalidad:", parrafo(paciente.funcionalidad)],
+        ["Motivo derivación:", parrafo(paciente.motivo_derivacion)],
+        ["Prestación requerida:", parrafo(paciente.prestacion_requerida)],
+        ["Glasgow:", parrafo(paciente.glasgow)],
+        ["Llenado capilar:", parrafo(paciente.llenado_capilar)],
+        ["FC:", parrafo(paciente.fc)],
+        ["FR:", parrafo(paciente.fr)],
+        ["FiO2:", parrafo(paciente.fio2)],
+        ["SatO2:", parrafo(paciente.sat02)],
+        ["Fecha registro:", parrafo(paciente.fecha_registro.strftime('%d/%m/%Y %H:%M'))],
     ]
 
     tabla = Table(data, colWidths=[160, 300])
@@ -145,6 +147,8 @@ def exportar_pdf(request, id):
         ("TEXTCOLOR", (1, 0), (1, -1), colors.black),
 
         ("GRID", (0, 0), (-1, -1), 0.6, azul),
+
+        ("VALIGN", (0, 0), (-1, -1), "TOP"),
 
         ("LEFTPADDING", (0, 0), (-1, -1), 8),
         ("RIGHTPADDING", (0, 0), (-1, -1), 8),
@@ -162,11 +166,11 @@ def exportar_pdf(request, id):
         normal
     )
     contenido.append(footer)
-
     pdf.build(contenido)
     buffer.seek(0)
 
     return FileResponse(buffer, as_attachment=True, filename=f"paciente_{paciente.id}.pdf")
+
 
 # Funcion para mostrar la pagina de creacion de usuarios
 

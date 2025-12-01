@@ -13,12 +13,18 @@
     {% endif %}
 
     <h2>Bienvenido al Sistema de Comunicación Ambulancia-Hospital</h2>
-    <p>Prototipo creado para mejorar la transferencia de información entre paramédicos y personal hospitalario.
-        Permite registrar pacientes, actualizar su estado, enviar alertas, y visualizar historial de acciones.</p>
+    <p>Plataforma destinada a optimizar la transferencia de información entre equipos prehospitalarios y personal clínico. El sistema permite registrar pacientes, actualizar su condición en tiempo real, emitir alertas operativas y consultar el historial completo de acciones para apoyar la toma de decisiones médicas.</p>
+
     <div class="buttons_index">
         <a href="{% url 'mostrar_login' %}" class="btn">Iniciar sesión</a>
+    </div>
+
+    {% if request.session.cargoUsuario == 'Administrador' %}
+    <div class="buttons_index" style="margin-top: 20px;">
         <a href="{% url 'menu_paramedico' %}" class="btn">Ir al Menú Paramédico</a>
         <a href="{% url 'menu_hospital' %}" class="btn">Ir al Menú Hospital</a>
     </div>
+    {% endif %}
+
 </div>
 {% endblock %}
