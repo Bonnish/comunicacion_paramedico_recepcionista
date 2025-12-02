@@ -1,5 +1,6 @@
 # Comunicación Paramedico - Recepcionista
-[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/Bonnish/comunicacion_paramedico_recepcionista)  
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/Bonnish/comunicacion_paramedico_recepcionista)  [![Ver Demo](https://img.shields.io/badge/VER%20DEMO-28a745?style=for-the-badge&logo=python&logoColor=white)](https://bonnish.pythonanywhere.com/)
+
 Proyecto académico desarrollado en **Django** (Python 3.13.7) que permite la comunicación entre un **paramédico** y el **recepcionista** de un hospital.  
 El sistema está orientado a mejorar la coordinación en situaciones de emergencia, permitiendo registrar pacientes en camino, verificar información y derivarlos al área correspondiente.
 
