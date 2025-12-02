@@ -31,10 +31,3 @@ El sistema está orientado a mejorar la coordinación en situaciones de emergenc
 - Control de acceso a las vistas según el tipo de usuario (paramédico o recepcionista).
 
 ---
-
-## Configuración de base de datos (MySQL)
-
-1. Crear una base de datos MySQL:
-
-   ```sql
-   CREATE DATABASE comunicacion_hospital;
