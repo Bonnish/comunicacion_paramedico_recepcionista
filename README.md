@@ -7,10 +7,10 @@ El sistema está orientado a mejorar la coordinación en situaciones de emergenc
 
 ## Tecnologías utilizadas
 
-- **Python 3.13.7**
+- **Python**
 - **Django**
-- **MySQL** (conector **PyMySQL**)
-- **HTML** y **CSS** nativo para el front-end
+- **MySQL**
+- **HTML**, **CSS** y **JavaScript**
 
 ---
 
